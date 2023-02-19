@@ -2,8 +2,9 @@ import React from "react";
 
 export default function TopNav(){
     return (
-        <div>
-            <h1>this is the navbar.</h1>
+        <div className="text">
+            <h1>Top Nav will be here.</h1>
+            <br />
         </div>
     )
 }

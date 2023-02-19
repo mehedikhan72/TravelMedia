@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Posts from "./Posts";
+import CreatePost from "./CreatePost";
+import TopNav from "./TopNav";
+
 export default function SideBar() {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -27,8 +30,8 @@ export default function SideBar() {
                         <span className="image"></span>
 
                         <div className="text logo-text">
-                            <span className="name">Codinglab</span>
-                            <span className="profession">Web developer</span>
+                            <span className="name">TravelMedia</span>
+                            <span className="profession">some cool text</span>
                         </div>
                     </div>
 
@@ -42,49 +45,48 @@ export default function SideBar() {
                             <input type="text" placeholder="Search..." />
                         </li>
 
-                        <ul className="menu-links">
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="bx bx-home-alt icon"></i>
-                                    <span className="text nav-text">Dashboard</span>
-                                </a>
-                            </li>
+                        {/* ul removed since bootstrap was causing issues here */}
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-home-alt icon"></i>
+                                <span className="text nav-text">Dashboard</span>
+                            </a>
+                        </li>
 
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="bx bx-bar-chart-alt-2 icon"></i>
-                                    <span className="text nav-text">Revenue</span>
-                                </a>
-                            </li>
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-bar-chart-alt-2 icon"></i>
+                                <span className="text nav-text">Revenue</span>
+                            </a>
+                        </li>
 
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="bx bx-bell icon"></i>
-                                    <span className="text nav-text">Notifications</span>
-                                </a>
-                            </li>
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-bell icon"></i>
+                                <span className="text nav-text">Notifications</span>
+                            </a>
+                        </li>
 
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="bx bx-pie-chart-alt icon"></i>
-                                    <span className="text nav-text">Analytics</span>
-                                </a>
-                            </li>
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-pie-chart-alt icon"></i>
+                                <span className="text nav-text">Analytics</span>
+                            </a>
+                        </li>
 
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="bx bx-heart icon"></i>
-                                    <span className="text nav-text">Likes</span>
-                                </a>
-                            </li>
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-heart icon"></i>
+                                <span className="text nav-text">Likes</span>
+                            </a>
+                        </li>
 
-                            <li className="nav-link">
-                                <a href="#">
-                                    <i className="bx bx-wallet icon"></i>
-                                    <span className="text nav-text">Wallets</span>
-                                </a>
-                            </li>
-                        </ul>
+                        <li className="nav-link">
+                            <a href="#">
+                                <i className="bx bx-wallet icon"></i>
+                                <span className="text nav-text">Wallets</span>
+                            </a>
+                        </li>
                     </div>
 
                     <div className="bottom-content">
@@ -110,9 +112,13 @@ export default function SideBar() {
                 </div>
             </nav>
 
-            {/* <section className="home">
-
-            </section> */}
+            {/* For the sake of all other components accessing the states declared in this component, Sidebar.js 
+            is used here as App.js and this is the place where I'll be stacking the components. */}
+            <section className="home">
+                <TopNav />
+                <CreatePost />
+                <Posts />
+            </section>
 
         </div>
     )
