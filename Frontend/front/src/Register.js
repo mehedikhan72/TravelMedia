@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function Register() {
+
     return (
-        <div>
-            this is the Register page.
+        <div className="login-reg-form">
+            Reg form
         </div>
     )
 }
