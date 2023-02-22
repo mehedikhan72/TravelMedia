@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 export default function Posts() {
     const [data, setData] = useState([]);
@@ -8,20 +9,15 @@ export default function Posts() {
             .then(response => response.json())
             .then(json => {
                 // figure out later why this happens multiple times.
-                console.log("ran");
                 setData(json.results);
-                console.log(json);
             })
     }, [])
 
-    // 'id', 'creator', 'post', 'place', 'trip_date',
-    // 'trip_duration', 'people_count', 'cost_per_person',
-    // 'transportation_data', 'staying_place', 'staying_place_cost',
-    // 'staying_place_rating', 'trip_rating', 'important_things_to_take',
-    // 'cautions'
+    let { user } = useContext(AuthContext);
 
     return (
         <div>
+            {user && <p>Hello {user.username}</p>}
             {data.map((item) => (
                 <div key={item.id} className="each-post text">
                     <div className="row">

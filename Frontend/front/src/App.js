@@ -1,21 +1,28 @@
 import './App.css';
-import TopNav from './TopNav';
-import Posts from './Posts';
-import Login from './Login';
-import Register from './Register';
 import './Sidebar.css';
-import SideBar from './SideBar';
+
+import Login from './components/Login';
+import Register from './components/Register';
+import SideBar from './components/SideBar';
+
+import PrivateRoute from './utils/PrivateRoute';
+import { AuthProvider } from './context/AuthContext';
+
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
     <div>
       <BrowserRouter>
-        <Routes>
-          <Route exact path="/" element={<SideBar />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route exact path='/' element={<PrivateRoute />}>
+              <Route exact path='/' element={<SideBar />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );

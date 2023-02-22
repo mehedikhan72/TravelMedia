@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Posts from "./Posts";
 import CreatePost from "./CreatePost";
 import TopNav from "./TopNav";
+import AuthContext from "../context/AuthContext";
 
 export default function SideBar() {
+
+    let { logoutUser } = useContext(AuthContext);
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
@@ -91,7 +94,7 @@ export default function SideBar() {
 
                     <div className="bottom-content">
                         <li className="">
-                            <a href="#">
+                            <a onClick={logoutUser}>
                                 <i className="bx bx-log-out icon"></i>
                                 <span className="text nav-text">Logout</span>
                             </a>
@@ -119,7 +122,6 @@ export default function SideBar() {
                 <CreatePost />
                 <Posts />
             </section>
-
         </div>
     )
 }
