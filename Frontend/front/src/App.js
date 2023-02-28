@@ -8,22 +8,22 @@ import SideBar from './components/SideBar';
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div>
-      <BrowserRouter>
+      <Router>
         <AuthProvider>
           <Routes>
-            <Route exact path='/' element={<PrivateRoute />}>
-              <Route exact path='/' element={<SideBar />} />
+            <Route element={<PrivateRoute />}>
+              <Route element={<SideBar />} exact path="/" />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
         </AuthProvider>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }

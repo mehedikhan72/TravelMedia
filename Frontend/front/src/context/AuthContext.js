@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
 
-
     const navigate = useNavigate();
 
     let loginUser = async (e) => {
@@ -41,7 +40,9 @@ export const AuthProvider = ({ children }) => {
         setAuthTokens(null);
         setUser(null);
         localStorage.removeItem('authTokens');
-        navigate('/login/');
+        if(user) {
+            navigate('/login/');
+        }
     }
 
     let updateToken = async () => {
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }) => {
             logoutUser();
         }
 
-        if(loading){
+        if (loading) {
             setLoading(false);
         }
     }
@@ -93,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={contextData}>
-            {loading? null: children}
+            {loading ? null : children}
         </AuthContext.Provider>
     )
 }
