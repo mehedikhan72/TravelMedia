@@ -11,7 +11,7 @@ class Post(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     post = models.TextField(default="")
     place = models.CharField(max_length=256, default="")
-    trip_date = models.DateField(default=datetime.datetime.now)
+    trip_date = models.DateField(default=datetime.date.today)
     trip_duration = models.PositiveIntegerField(default=0)
     people_count = models.PositiveIntegerField(default=0)
     cost_per_person = models.PositiveIntegerField(default=0)

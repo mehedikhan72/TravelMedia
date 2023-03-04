@@ -13,11 +13,8 @@ export default function Posts() {
             })
     }, [])
 
-    let { user } = useContext(AuthContext);
-
     return (
         <div>
-            {user && <p>Hello {user.username}</p>}
             {data.map((item) => (
                 <div key={item.id} className="each-post text">
                     <div className="row">
