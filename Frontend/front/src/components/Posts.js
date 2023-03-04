@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import CreatePost from "./CreatePost";
 
 export default function Posts() {
     const [data, setData] = useState([]);
@@ -13,8 +14,14 @@ export default function Posts() {
             })
     }, [])
 
+    const newPostAdded = (newPost) => {
+        const newData = [newPost, ...data]
+        setData(newData);
+    }
+
     return (
         <div>
+            <CreatePost newPostAdded={newPostAdded}/>
             {data.map((item) => (
                 <div key={item.id} className="each-post text">
                     <div className="row">

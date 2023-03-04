@@ -9,7 +9,10 @@ export default function SideBar() {
     let { logoutUser } = useContext(AuthContext);
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [darkMode, setDarkMode] = useState(false);
+    const [mode, setMode] = useState(localStorage.getItem('mode'));
+
+    const [darkMode, setDarkMode] = useState(localStorage.getItem('mode') === 'dark-mode' ? true : false);
+
     const body = document.querySelector('body');
 
     const handleSidebarToggle = () => {
@@ -22,8 +25,23 @@ export default function SideBar() {
 
     const handleModeToggle = () => {
         setDarkMode((prevState) => !prevState);
-        body.classList.toggle("dark");
+        if(!darkMode) {
+            setMode('dark-mode');
+            localStorage.setItem('mode', 'dark-mode');
+        }
+        else{
+            setMode('light-mode');
+            localStorage.setItem('mode', 'light-mode');
+        }
     };
+
+    
+    if(mode === 'dark-mode') {
+        body.classList.add('dark');
+    }
+    else if(mode === 'light-mode'){
+        body.classList.remove('dark');
+    }
 
     return (
         <div>
@@ -119,7 +137,7 @@ export default function SideBar() {
             is used here as App.js and this is the place where I'll be stacking the components. */}
             <section className="home">
                 <TopNav />
-                <CreatePost />
+                {/* <CreatePost /> */}
                 <Posts />
             </section>
         </div>
