@@ -1,9 +1,9 @@
 import './App.css';
-import './Sidebar.css';
+import './Layout.css';
 
 import Login from './components/Login';
 import Register from './components/Register';
-import SideBar from './components/SideBar';
+import Layout from './components/Layout';
 import Profile from './components/Profile';
 
 import PrivateRoute from './utils/PrivateRoute';
@@ -12,22 +12,21 @@ import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
-  return (
-    <div>
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route element={<PrivateRoute />}>
-              <Route element={<SideBar />} exact path="/" />
-              <Route path="profiles/:username" element={<Profile />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </AuthProvider>
-      </Router>
-    </div>
-  );
+    return (
+        <div>
+            <Router>
+                <AuthProvider>
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route element={<PrivateRoute />}>
+                            <Route path="/*" element={<Layout />}/>
+                        </Route>
+                    </Routes>
+                </AuthProvider>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
