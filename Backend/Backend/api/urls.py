@@ -11,6 +11,8 @@ urlpatterns = [
     path('posts/', views.PostList.as_view()),
     path('posts/<int:pk>', views.PostDetail.as_view()),
     path('user/register', views.register_user, name="register"),
+    path('users/<str:username>/posts/',
+         views.UserPostList.as_view(), name='user-posts'),
 
     # JWT endpoints
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Post, User
 from .serializers import PostSerializer, UserRegisterSerialzier
 from rest_framework import generics, status, permissions
@@ -19,6 +19,16 @@ class PostList(generics.ListCreateAPIView):
             serializer.save(creator=self.request.user)
         else:
             raise ValueError("User must be authenticated to create a post.")
+
+
+class UserPostList(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        user = get_object_or_404(User, username=username)
+        queryset = Post.objects.filter(creator=user).order_by('-id')
+        return queryset
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
