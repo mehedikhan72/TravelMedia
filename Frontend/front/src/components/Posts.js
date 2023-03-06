@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import CreatePost from "./CreatePost";
+import Likes from "./interactions/Likes";
 
 export default function Posts() {
     const [data, setData] = useState([]);
@@ -22,6 +23,7 @@ export default function Posts() {
     return (
         <div>
             <CreatePost newPostAdded={newPostAdded}/>
+            
             {data.map((item) => (
                 <div key={item.id} className="each-post text">
                     <div className="row">
@@ -31,6 +33,7 @@ export default function Posts() {
                         </div>
                         <div className="col col-sm-6-col-md-6 col-lg-6">
                             <h6>other options here.</h6>
+                            <Likes post_id={item.id} />
                         </div>
                     </div>
                     <h6>{item.post}</h6>

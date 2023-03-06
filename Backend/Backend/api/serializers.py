@@ -33,5 +33,5 @@ class PostSerializer(serializers.ModelSerializer):
                   'trip_duration', 'people_count', 'cost_per_person',
                   'transportation_data', 'staying_place', 'staying_place_cost',
                   'staying_place_rating', 'trip_rating', 'important_things_to_take',
-                  'cautions',
+                  'cautions', 'likes_count', 'likes', 'dislikes'
                   ]

@@ -23,3 +23,8 @@ class Post(models.Model):
     important_things_to_take = models.TextField(default="")
     cautions = models.TextField(default="")
 
+    # Interactions
+    likes_count = models.IntegerField()
+    likes = models.ManyToManyField(User, blank=True, related_name="likes")
+    dislikes = models.ManyToManyField(User, blank=True, related_name="dislikes")
+
