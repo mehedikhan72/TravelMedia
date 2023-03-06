@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post, User
+from .models import Post, User, Comment
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -35,3 +35,16 @@ class PostSerializer(serializers.ModelSerializer):
                   'staying_place_rating', 'trip_rating', 'important_things_to_take',
                   'cautions', 'likes_count', 'likes', 'dislikes'
                   ]
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'comment_text', 'creator', 'created_time', 'post')
+        read_only_fields = ('creator', 'created_time', 'post')
+
+    def create(self, validated_data):
+        post_id = self.context['view'].kwargs['post_id']
+        validated_data['creator'] = self.context['request'].user
+        validated_data['post'] = Post.objects.get(pk=post_id)
+        return super().create(validated_data)

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import CreatePost from "./CreatePost";
 import Likes from "./interactions/Likes";
+import Comments from "./interactions/Comments";
+import CreateComment from "./interactions/CreateComment";
 
 export default function Posts() {
     const [data, setData] = useState([]);
@@ -22,8 +24,7 @@ export default function Posts() {
 
     return (
         <div>
-            <CreatePost newPostAdded={newPostAdded}/>
-            
+            <CreatePost newPostAdded={newPostAdded} />
             {data.map((item) => (
                 <div key={item.id} className="each-post text">
                     <div className="row">
@@ -50,7 +51,9 @@ export default function Posts() {
                     <h6>Some of the important things to take if you wanna visit {item.place}: {item.important_things_to_take}</h6>
                     <h6>Here are some of the cautions: {item.cautions}</h6>
                     <br />
+                    <Comments post_id={item.id}/>
                 </div>
+
             ))}
         </div>
     )

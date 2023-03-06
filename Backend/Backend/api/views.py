@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, User
-from .serializers import PostSerializer, UserRegisterSerialzier
+from .models import Post, User, Comment
+from .serializers import PostSerializer, UserRegisterSerialzier, CommentSerializer
 from rest_framework import generics, status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -70,6 +70,8 @@ def register_user(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+# USER INTERACTION VIEWS
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def increase_likes(request, post_id):
@@ -132,3 +134,20 @@ def check_like_status(request, post_id):
         'status': status,
         'likes_count' : likes_count
         })
+
+
+class CommentList(generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs['post_id']
+        return Comment.objects.filter(post_id=post_id).order_by('-id')
+
+    def perform_create(self, serializer):
+        post_id = self.kwargs['post_id']
+        serializer.save(creator=self.request.user, post_id=post_id)
+
+
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer

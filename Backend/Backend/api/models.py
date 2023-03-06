@@ -28,3 +28,13 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
     dislikes = models.ManyToManyField(User, blank=True, related_name="dislikes")
 
+
+class Comment(models.Model):
+    comment_text = models.TextField()
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_time = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(
+        'Post', on_delete=models.CASCADE, related_name='comments')
+
+    def __str__(self):
+        return f"{self.comment_text} by {self.creator} on {self.post}"
