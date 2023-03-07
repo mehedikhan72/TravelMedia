@@ -23,11 +23,10 @@ class Post(models.Model):
     staying_place_cost = models.PositiveIntegerField(default=0)
     staying_place_rating = models.PositiveIntegerField(default=0)
     trip_rating = models.PositiveIntegerField(default=0)
-    important_things_to_take = models.TextField(default="")
-    cautions = models.TextField(default="")
+    important_things_to_take = models.TextField(default="", blank=True)
+    cautions = models.TextField(default="", blank=True)
 
     # Interactions
-    likes_count = models.IntegerField()
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
     dislikes = models.ManyToManyField(User, blank=True, related_name="dislikes")
 

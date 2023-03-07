@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import CreatePost from "./CreatePost";
 import AuthContext from "../context/AuthContext";
+import Likes from "./interactions/Likes";
 
 export default function Profile(props) {
   const { username } = useParams(); // The one who's profile we are visiting.
@@ -88,6 +89,7 @@ export default function Profile(props) {
             </div>
             <div className="col col-sm-6-col-md-6 col-lg-6">
               <h6>other options here.</h6>
+              <Likes post_id={item.id} />
             </div>
           </div>
           <h6>{item.post}</h6>

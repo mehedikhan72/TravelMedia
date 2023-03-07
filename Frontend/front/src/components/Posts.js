@@ -21,7 +21,10 @@ export default function Posts() {
         const newData = [newPost, ...data]
         setData(newData);
     }
-
+    
+    // BUG FOUND
+    // the states in createPost need to be set to init values when a post is 
+    // created. otherwise, the current post gets the data of the prev one.
     return (
         <div>
             <CreatePost newPostAdded={newPostAdded} />

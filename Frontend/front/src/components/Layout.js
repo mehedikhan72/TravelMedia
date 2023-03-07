@@ -6,10 +6,12 @@ import AuthContext from "../context/AuthContext";
 import Profile from "./Profile";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Layout() {
 
   let { logoutUser } = useContext(AuthContext);
+  let { user } = useContext(AuthContext);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mode, setMode] = useState(localStorage.getItem('mode'));
@@ -50,14 +52,14 @@ export default function Layout() {
     <div>
       <nav className={`sidebar ${sidebarOpen ? "close" : ""}`}>
         <header>
-          <div className="image-text">
-            <span className="image"></span>
+          <Link to="/" className="image-text text nav-link">
+            <img src="" className="image text"></img>
 
             <div className="text logo-text">
               <span className="name">TravelMedia</span>
               <span className="profession">some cool text</span>
             </div>
-          </div>
+          </Link>
 
           <i className="bx bx-chevron-right toggle" onClick={handleSidebarToggle}></i>
         </header>
@@ -71,18 +73,22 @@ export default function Layout() {
 
             {/* ul removed since bootstrap was causing issues here */}
             <li className="nav-link">
-              <a href="#">
+              {/* <a href="#">
                 <i className="bx bx-home-alt icon"></i>
                 <span className="text nav-text">Dashboard</span>
-              </a>
+              </a> */}
+              <Link to={{ pathname: `/profiles/${user.username}` }}>
+                <i className="bx bx-home-alt icon"></i>
+                <span className="text nav-text">Profile</span>
+              </Link>
             </li>
 
-            <li className="nav-link">
+            {/* <li className="nav-link">
               <a href="#">
                 <i className="bx bx-bar-chart-alt-2 icon"></i>
                 <span className="text nav-text">Revenue</span>
               </a>
-            </li>
+            </li> */}
 
             <li className="nav-link">
               <a href="#">
@@ -94,23 +100,23 @@ export default function Layout() {
             <li className="nav-link">
               <a href="#">
                 <i className="bx bx-pie-chart-alt icon"></i>
-                <span className="text nav-text">Analytics</span>
+                <span className="text nav-text">Saved</span>
               </a>
             </li>
 
             <li className="nav-link">
               <a href="#">
                 <i className="bx bx-heart icon"></i>
-                <span className="text nav-text">Likes</span>
+                <span className="text nav-text">Following</span>
               </a>
             </li>
 
-            <li className="nav-link">
+            {/* <li className="nav-link">
               <a href="#">
                 <i className="bx bx-wallet icon"></i>
                 <span className="text nav-text">Wallets</span>
               </a>
-            </li>
+            </li> */}
           </div>
 
           <div className="bottom-content">

@@ -78,17 +78,16 @@ def increase_likes(request, post_id):
     user = request.user
     if user in post.likes.all():
         post.likes.remove(user)
-        post.likes_count -= 1
+
         post.save()
         return JsonResponse({})
     if user in post.dislikes.all():
         post.dislikes.remove(user)
         post.likes.add(user)
-        post.likes_count += 2
+
         post.save()
         return JsonResponse({})
     post.likes.add(user)
-    post.likes_count += 1
     post.save()
 
     return JsonResponse({})
@@ -101,18 +100,17 @@ def decrease_likes(request, post_id):
     user = request.user
     if user in post.dislikes.all():
         post.dislikes.remove(user)
-        post.likes_count += 1
+
         post.save()
         return JsonResponse({})
     if user in post.likes.all():
         post.likes.remove(user)
         post.dislikes.add(user)
-        post.likes_count -= 2
+
         post.save()
         return JsonResponse({})
 
     post.dislikes.add(user)
-    post.likes_count -= 1
     post.save()
     return JsonResponse({})
 
