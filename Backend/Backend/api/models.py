@@ -5,7 +5,10 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class User(AbstractUser):
-    pass
+    followers = models.ManyToManyField(
+        'self', blank=True, related_name="following", symmetrical=False)
+    # follower_count = models.PositiveIntegerField(default=0)
+    # following_count = models.PositiveIntegerField(default=0)
 
 class Post(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=None)

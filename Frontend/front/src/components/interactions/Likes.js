@@ -9,7 +9,7 @@ export default function Likes(props) {
   const accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
 
   // get status
-  const getStatus = () =>{
+  const getStatus = () => {
     fetch(`http://127.0.0.1:8000/api/post/${post_id}/like_status`, {
       method: 'GET',
       headers: {
@@ -22,9 +22,9 @@ export default function Likes(props) {
         setLikeStatus(json.status);
         setLikeCount(json.likes_count);
       })
-    }
-    
-    getStatus();
+  }
+
+  getStatus();
 
   const increaseLikes = () => {
     if (accessToken) {

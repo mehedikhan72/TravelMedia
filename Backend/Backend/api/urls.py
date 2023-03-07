@@ -19,10 +19,16 @@ urlpatterns = [
     path('post/<int:post_id>/unlike', views.decrease_likes, name="decrease_likes"),
     path('post/<int:post_id>/like_status',
          views.check_like_status, name="check_like_status"),
-    
-    path('post/<int:post_id>/comments/', views.CommentList.as_view(), name="comment"),
+
+    path('post/<int:post_id>/comments/',
+         views.CommentList.as_view(), name="comment"),
     path('post/<int:post_id>/comments/<int:pk>',
          views.CommentDetail.as_view(), name="comment_detail"),
+
+    # Follow/Unfollow
+    path('users/<str:username>/f_data/', views.f_data, name="f_data"),
+    path('users/<str:username>/follow/', views.follow, name="follow"),
+    path('users/<str:username>/unfollow/', views.unfollow, name="unfollow"),
     # JWT endpoints
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
