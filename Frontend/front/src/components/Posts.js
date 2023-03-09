@@ -21,43 +21,63 @@ export default function Posts() {
         const newData = [newPost, ...data]
         setData(newData);
     }
-    
-    // BUG FOUND
-    // the states in createPost need to be set to init values when a post is 
-    // created. otherwise, the current post gets the data of the prev one.
+
+    const [disableFeedView, setDisableFeedView] = useState(false);
+    const createPostBtnClicked = () => {
+        setDisableFeedView(true);
+    }
+
+    const createPostBtnCancelled = () => {
+        setDisableFeedView(false);
+
+    }
+
     return (
         <div>
-            <CreatePost newPostAdded={newPostAdded} />
-            {data.map((item) => (
-                <div key={item.id} className="each-post text">
-                    <div className="row">
-                        <div className="col col-sm-6-col-md-6 col-lg-6">
-                            <h3>{item.creator.username} is at {item.place}</h3>
-                            <h6>{item.trip_date}</h6>
-                        </div>
-                        <div className="col col-sm-6-col-md-6 col-lg-6">
-                            <h6>other options here.</h6>
-                            <Likes post_id={item.id} />
-                        </div>
-                    </div>
-                    <h6>{item.post}</h6>
-                    <br />
-                    <h4>Trip Info:</h4>
-                    <h6>We stayed at {item.place} for {item.trip_duration} days.</h6>
-                    <h6>We travelled as a group of {item.people_count}</h6>
-                    <h6>This tour cost each of us {item.cost_per_person} BDT.</h6>
-                    <h6>This is how we transported: {item.transportation_data}</h6>
-                    <h6>We stayed at {item.staying_place}</h6>
-                    <h6>{item.staying_place} cost each of us {item.staying_place_cost}</h6>
-                    <h6>We rate {item.staying_place} {item.staying_place_rating} out of 5.</h6>
-                    <h6>We had a {item.trip_rating} star rated trip in general</h6>
-                    <h6>Some of the important things to take if you wanna visit {item.place}: {item.important_things_to_take}</h6>
-                    <h6>Here are some of the cautions: {item.cautions}</h6>
-                    <br />
-                    <Comments post_id={item.id}/>
-                </div>
+            <CreatePost
+                newPostAdded={newPostAdded}
+                createPostBtnClicked={createPostBtnClicked}
+                createPostBtnCancelled={createPostBtnCancelled}
+            />
+            <div className={disableFeedView ? "disabled" : ""}>
+                {data.map((item) => (
+                    <div key={item.id} className="each-post text">
+                        <div className="row">
+                            <div className="col col-sm-6-col-md-6 col-lg-6">
+                                <p className="post-title"><strong>{item.creator.username}</strong> is at <strong>{item.place}</strong></p>
+                                <p className="post-date">{item.trip_date}</p>
+                            </div>
+                            <div className="col col-sm-6-col-md-6 col-lg-6">
+                                <h6>options</h6>
 
-            ))}
+                            </div>
+                        </div>
+                        <h6>{item.post}</h6>
+                        <br />
+                        <h4>Trip Info:</h4>
+                        <h6>We stayed at {item.place} for {item.trip_duration} days.</h6>
+                        <h6>We travelled as a group of {item.people_count}</h6>
+                        <h6>This tour cost each of us {item.cost_per_person} BDT.</h6>
+                        <h6>This is how we transported: {item.transportation_data}</h6>
+                        <h6>We stayed at {item.staying_place}</h6>
+                        <h6>{item.staying_place} cost each of us {item.staying_place_cost}</h6>
+                        <h6>We rate {item.staying_place} {item.staying_place_rating} out of 5.</h6>
+                        <h6>We had a {item.trip_rating} star rated trip in general</h6>
+                        <h6>Some of the important things to take if you wanna visit {item.place}: {item.important_things_to_take}</h6>
+                        <h6>Here are some of the cautions: {item.cautions}</h6>
+                        <br />
+
+                        <div className="interaction-menu">
+                            <Likes post_id={item.id} />
+                            <button className="btn btn-light"><i className="bx bx-comment"></i> Add Comments</button>
+                            <button className="btn btn-light"><i className="bx bx-comment"></i> 4</button>
+                        </div>
+                        
+                        <Comments post_id={item.id} />
+                    </div>
+                ))}
+            </div>
+
         </div>
     )
 }

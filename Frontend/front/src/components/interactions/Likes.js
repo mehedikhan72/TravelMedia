@@ -63,11 +63,10 @@ export default function Likes(props) {
   }
 
   return (
-    <div>
-      <h1>Like status: {likeStatus}</h1>
-      <h1>Like count: {likeCount}</h1>
-      <button onClick={increaseLikes}>Like</button>
-      <button onClick={decreaseLikes}>Dislike</button>
+    <div className="like-info">
+      <button className="btn btn-light upvote" onClick={increaseLikes}><i className={likeStatus === 'liked' ? 'bx bxs-upvote' : 'bx bx-upvote'}></i></button>
+      <p className="like-count">{likeCount}</p>
+      <button className="btn btn-light downvote" onClick={decreaseLikes}><i className={likeStatus === 'disliked' ? 'bx bxs-downvote' : 'bx bx-downvote'} ></i></button>
     </div>
   )
 }

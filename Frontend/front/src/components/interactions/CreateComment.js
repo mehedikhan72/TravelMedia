@@ -1,4 +1,4 @@
-import React, { useState } from "react";  
+import React, { useState } from "react";
 
 export default function CreateComment(props) {
     const [comment, setComment] = useState("");
@@ -21,6 +21,7 @@ export default function CreateComment(props) {
                 .then(response => response.json())
                 .then(data => {
                     props.newCommentAdded(data);
+                    setComment("");
                 })
                 .catch(error => console.log(error));
         }
@@ -28,11 +29,12 @@ export default function CreateComment(props) {
             console.log("Error Occured!");
         }
     }
-    return(
+    return (
+        // BUG FOUND: INPUT BOX NOT CLEARING AFTER FORM SUBMISSION
         <div>
-            <form onSubmit={handleSubmit}>
-                <input required name="comment" placeholder="Add a comment" onChange={(e) => setComment(e.target.value)}/> <br />
-                <input type="submit"/>
+            <form onSubmit={handleSubmit} className="comment-form">
+                <input required name="comment" placeholder="Add a comment" onChange={(e) => setComment(e.target.value)} /> <br />
+                <button type="submit">Comment</button>
             </form>
         </div>
     )

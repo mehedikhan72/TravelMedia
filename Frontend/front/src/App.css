@@ -1,24 +1,108 @@
-.each-post {
-  clear: both;
-}
+/* Post Creation */
 .post-creation-input-box {
-  width: 75%;
+  width: 100%;
+  border-radius: 5px;
+  border: 0.5px solid black;
+  padding: 0 0 0 5px;
 }
 
 .post-detail-input {
   width: 100%;
-  padding: 5px;
-  margin: 8px;
+  padding: 7px;
+  border-radius: 5px;
+  border: 0.5px solid black;
+  margin-bottom: 20px;
+  margin-top: -10px;
 }
 
 .post-detail-textarea {
   width: 100%;
   height: 150px;
   resize: none;
-  padding: 5px;
-  margin: 8px;
+  padding: 7px;
+  border-radius: 5px;
+  border: 0.5px solid black;
 }
 
+.long-btns {
+  width: 100%;
+}
+
+.create-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 7px;
+}
+
+.post-creation-form {
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 60%;
+  height: 85%;
+  padding: 0.5rem;
+  border-radius: 10px;
+  overflow: auto;
+  z-index: 1;
+}
+
+/* Post Creation ends */
+
+
+
+
+/* Top Navbar */
+.main-searchbox {
+  width: 60%;
+}
+
+.main-searchbox-input {
+  border: 0.5px solid black;
+  border-radius: 5px;
+  width: 80%;
+  padding: 0 0 0 5px;
+}
+
+.topnav {
+  display: flex;
+  background-color: rgb(255, 255, 255);
+}
+
+.topnav-parent{
+
+}
+
+.topnav-left {
+  margin-right: auto;
+}
+
+.topnav-right {
+  margin-left: auto;
+}
+
+.bell-icon {
+  margin-right: 3px;
+}
+
+.user-icon {
+  margin-left: 3px
+}
+
+.search-icon {
+  margin-left: 6px;
+}
+
+/* Top NavBar finishes */
+
+
+
+
+/* Utils */
 .center {
   text-align: center;
 }
@@ -26,3 +110,93 @@
 .input-label {
   padding: 5px;
 }
+
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.box-icons {
+  border-radius: 5px;
+  border: 0.5px solid black;
+}
+
+.box-icons>i {
+  padding: 0px 5px 0px 5px;
+}
+
+.round-icons {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 0.5px solid black;
+}
+
+/* Utils */
+
+
+
+/* Posts */
+
+.each-post {
+  clear: both;
+  background-color: white;
+  width: 40%;
+  margin: 30px;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.post-title {
+  font-size: 25px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.post-date {
+  margin-top: 0;
+  padding-top: 0;
+  font-size: 16px;
+}
+
+.like-info{
+  display: flex;
+}
+
+.upvote {
+  margin-right: 15px;
+  
+}
+
+.downvote {
+  margin-left: 15px;
+}
+
+.reaction-btns{
+  border: 0;
+  background-color: white;
+}
+
+.like-count {
+  margin-top: 8px;
+}
+
+.comment-form{
+  display: flex;
+  width: 20%;
+}
+/* Post Ends */
+
+.interaction-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.interaction-menu > button {
+  border: none;
+  background-color: white;
+}
+
+
+

@@ -138,7 +138,11 @@ class CommentList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']
-        return Comment.objects.filter(post_id=post_id).order_by('-id')
+        queryset = Comment.objects.filter(post_id=post_id).order_by('-id')
+        # BUG need to send the queryset count later on.
+        #count = queryset.count()
+        #data = {'count': count, 'queryset': list(queryset.values())}
+        return queryset
 
     def perform_create(self, serializer):
         post_id = self.kwargs['post_id']

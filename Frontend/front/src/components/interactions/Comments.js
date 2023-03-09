@@ -21,6 +21,8 @@ export default function Comments(props) {
         setComments(newComments);
     }
 
+    const postDetails = false;
+
     return (
         <div>
             {comments.map((item) => (
@@ -30,7 +32,7 @@ export default function Comments(props) {
                 </div>
             ))
             }
-            <CreateComment post_id={post_id} newCommentAdded={newCommentAdded}/>
+            {/* <CreateComment post_id={post_id} newCommentAdded={newCommentAdded}/> */}
         </div>
     )
 }
