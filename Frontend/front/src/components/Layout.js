@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import Posts from "./Posts";
 import CreatePost from "./CreatePost";
-import TopNav from "./TopNav";
 import AuthContext from "../context/AuthContext";
 import Profile from "./Profile";
+import '../App.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -13,144 +13,74 @@ export default function Layout() {
   let { logoutUser } = useContext(AuthContext);
   let { user } = useContext(AuthContext);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [mode, setMode] = useState(localStorage.getItem('mode'));
+  const [menuClicked, setMenuClicked] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem('theme'));
 
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('mode') === 'dark-mode' ? true : false);
-
-  const body = document.querySelector('body');
-
-  const handleSidebarToggle = () => {
-    setSidebarOpen((prevState) => !prevState);
-  };
-
-  const handleSearchClick = () => {
-    setSidebarOpen(false);
-  };
-
-  const handleModeToggle = () => {
-    setDarkMode((prevState) => !prevState);
-    if (!darkMode) {
-      setMode('dark-mode');
-      localStorage.setItem('mode', 'dark-mode');
-    }
-    else {
-      setMode('light-mode');
-      localStorage.setItem('mode', 'light-mode');
-    }
-  };
-
-
-  if (mode === 'dark-mode') {
-    body.classList.add('dark');
-  }
-  else if (mode === 'light-mode') {
-    body.classList.remove('dark');
+  const handleThemeChange = (e) => {
+    console.log("theme changed");
+    localStorage.setItem('theme', e.target.value);
+    setTheme(localStorage.getItem('theme'));
   }
 
   return (
-    <div>
-      <nav className={`sidebar ${sidebarOpen ? "close" : ""}`}>
-        <header>
-          <Link to="/" className="image-text text nav-link">
-            <img src="" className="image text"></img>
+    <div className={theme !== '' ? theme : ""}>
+      {/* For the sake of all other components accessing the states declared in this component, Layout.js 
+            is used here as App.js and this is the place where I'll be stacking the components. */}
+      <header>
+        <div className="logo-n-search">
+          <Link className="logo"><img width="50" src="https://i.pinimg.com/originals/de/82/29/de822902b1f27718862f9453277c91ce.jpg"></img></Link>
+          {/* <i className='nav-logo bx bx-run'></i> */}
+          <form className="search-form">
+            <input required className="search-box"></input>
+            <button className="search-btn" type="submit"><i className='bx bx-search-alt-2'></i></button>
+          </form>
+        </div>
 
-            <div className="text logo-text">
-              <span className="name">TravelMedia</span>
-              <span className="profession">some cool text</span>
-            </div>
-          </Link>
+        <div className="my-navbar">
+          <Link onClick={() => setMenuClicked(!menuClicked)} to="/"><i className='scale-1-10 nav-logo bx bx-home' ></i></Link>
+          <Link><i className='scale-1-10 nav-logo bx bx-group'></i></Link>
+        </div>
 
-          <i className="bx bx-chevron-right toggle" onClick={handleSidebarToggle}></i>
-        </header>
+        <div className="main-options">
+          <i onClick={() => setMenuClicked(!menuClicked)} className={menuClicked === false ? "scale-1-10 nav-logo bx bx-menu" : "scale-1-10 nav-logo bx bx-x"} id="menu-icon" ></i>
+          <Link><i className='scale-1-10 nav-logo bx bx-bell'></i></Link>
+          <Link to={{ pathname: `/profiles/${user.username}` }}><i className='scale-1-10 nav-logo bx bx-user'></i></Link>
+        </div>
+      </header>
+      <div>
+        <div className={menuClicked === false ? "sidenav" : "sidenav open"}>
+          <div>
+            <Link onClick={() => setMenuClicked(!menuClicked)} to="/" className="scale-1-10 sidenav-links"><i className='extra-icon nav-logo bx bx-home' ></i><span className="extra-icon">HOME</span></Link>
+            <Link className="scale-1-10 sidenav-links"><i className='extra-icon nav-logo bx bx-group'></i><span className="extra-icon">PEOPLE</span></Link>
+            <Link className="scale-1-10 sidenav-links"><i className='nav-logo bx bx-bookmarks'></i><span>SAVED POSTS</span></Link>
+            <Link className="scale-1-10 sidenav-links"><i className='nav-logo bx bx-map'></i><span>MAP</span></Link>
+            {/* <div className="dark-mode-div form-check form-switch">
+              <label className="form-check-label" for="flexSwitchCheckDefault">Dark Mode</label>
+              <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+              
+              
+            </div> */}
 
-        <div className="menu-bar">
-          <div className="menu">
-            <li className="search-box" onClick={handleSearchClick}>
-              <i className="bx bx-search icon"></i>
-              <input type="text" placeholder="Search..." />
-            </li>
+            <span className="scale-1-10 sidenav-links theme-selection">
+              <i className='nav-logo bx bx-moon'></i>
+              <select onChange={handleThemeChange} className="form-select" aria-label="Default select example">
+                <option defaultValue={theme !== '' ? theme : ""}>THEME</option>
+                <option value="light">LIGHT</option>
+                <option value="dark">DARK</option>
+                <option value="navy">NAVY</option>
+              </select>
+            </span>
 
-            {/* ul removed since bootstrap was causing issues here */}
-            <li className="nav-link">
-              {/* <a href="#">
-                <i className="bx bx-home-alt icon"></i>
-                <span className="text nav-text">Dashboard</span>
-              </a> */}
-              <Link to={{ pathname: `/profiles/${user.username}` }}>
-                <i className="bx bx-home-alt icon"></i>
-                <span className="text nav-text">Profile</span>
-              </Link>
-            </li>
-
-            {/* <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-bar-chart-alt-2 icon"></i>
-                <span className="text nav-text">Revenue</span>
-              </a>
-            </li> */}
-
-            <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-bell icon"></i>
-                <span className="text nav-text">Notifications</span>
-              </a>
-            </li>
-
-            <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-pie-chart-alt icon"></i>
-                <span className="text nav-text">Saved</span>
-              </a>
-            </li>
-
-            <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-heart icon"></i>
-                <span className="text nav-text">Following</span>
-              </a>
-            </li>
-
-            {/* <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-wallet icon"></i>
-                <span className="text nav-text">Wallets</span>
-              </a>
-            </li> */}
-          </div>
-
-          <div className="bottom-content">
-            <li className="">
-              <a onClick={logoutUser}>
-                <i className="bx bx-log-out icon"></i>
-                <span className="text nav-text">Logout</span>
-              </a>
-            </li>
-
-            <li className="mode" onClick={handleModeToggle}>
-              <div className="sun-moon">
-                <i className="bx bx-moon icon moon"></i>
-                <i className="bx bx-sun icon sun"></i>
-              </div>
-              <span className="mode-text text">{darkMode ? "Light mode" : "Dark mode"}</span>
-
-              <div className="toggle-switch">
-                <span className={`switch ${darkMode ? "on" : ""}`}></span>
-              </div>
-            </li>
+            <Link onClick={logoutUser} className="scale-1-10 sidenav-links"><i className='nav-logo bx bx-log-out'></i><span>LOGOUT</span></Link>
           </div>
         </div>
-      </nav>
-
-      {/* For the sake of all other components accessing the states declared in this component, Sidebar.js 
-            is used here as App.js and this is the place where I'll be stacking the components. */}
-      <section className="home">
-        <TopNav />
-        <Routes>
-          <Route index element={<Posts />} />
-          <Route path="/profiles/:username" element={<Profile />} />
-        </Routes>
-      </section>
+        <div className="main-content">
+          <Routes>
+            <Route index element={<Posts />} />
+            <Route path="/profiles/:username" element={<Profile />} />
+          </Routes>
+        </div>
+      </div>
     </div>
   )
 }

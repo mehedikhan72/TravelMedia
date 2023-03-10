@@ -33,9 +33,10 @@ export default function CreateComment(props) {
         // BUG FOUND: INPUT BOX NOT CLEARING AFTER FORM SUBMISSION
         <div>
             <form onSubmit={handleSubmit} className="comment-form">
-                <input required name="comment" placeholder="Add a comment" onChange={(e) => setComment(e.target.value)} /> <br />
-                <button type="submit">Comment</button>
+                <input required name="comment" placeholder="Your comment" onChange={(e) => setComment(e.target.value)} /> <br />
+                <button className="my-btns" type="submit">Add</button>
             </form>
+            <br />
         </div>
     )
 }

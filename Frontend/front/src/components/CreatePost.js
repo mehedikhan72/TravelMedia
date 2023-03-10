@@ -80,7 +80,7 @@ export default function CreatePost(props) {
     };
 
     return (
-        <div className="text">
+        <div>
             <div className={createPostActive ? "disabled" : ""}>
                 <input onClick={createPostClicked} className="post-creation-input-box" type="text" placeholder={placeholderText} />
             </div>
@@ -90,7 +90,7 @@ export default function CreatePost(props) {
                         <br />
                         <div className="create-post-header">
                             <h2 className='center'>Tell us about you latest trip, {user.username}!</h2>
-                            <button className='btn btn-outline-dark' onClick={cancelPostClicked} type='submit'>X</button>
+                            <button className='my-btns' onClick={cancelPostClicked} type='submit'>X</button>
                         </div>
                         
                         <br/>
@@ -120,7 +120,7 @@ export default function CreatePost(props) {
                         <input className='post-detail-input' type='text' name='cautions' placeholder='leave empty if none.' onChange={(e) =>  setPostContent({...postContent, cautions: e.target.value})}></input> <br />
                         <p>Other than the above data, please enter your thoughts.</p>
                         <textarea required className='post-detail-textarea' type='text' name='post' placeholder='e.g. Your experience.' onChange={(e) =>  setPostContent({...postContent, post: e.target.value})}></textarea> <br />
-                        <button className='btn btn-primary long-btns' type='submit'>Post</button>
+                        <button className='my-btns create-post-confirm-btn' type='submit'>Post</button>
                     </form>
 
                 </div>

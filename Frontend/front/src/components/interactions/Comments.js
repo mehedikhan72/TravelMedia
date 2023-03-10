@@ -25,6 +25,7 @@ export default function Comments(props) {
 
     return (
         <div>
+             <CreateComment post_id={post_id} newCommentAdded={newCommentAdded}/>
             {comments.map((item) => (
                 <div key={item.id} className="text">
                     <h6>{item.comment_text}</h6>
@@ -32,7 +33,6 @@ export default function Comments(props) {
                 </div>
             ))
             }
-            {/* <CreateComment post_id={post_id} newCommentAdded={newCommentAdded}/> */}
         </div>
     )
 }

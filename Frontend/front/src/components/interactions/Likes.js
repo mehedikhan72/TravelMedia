@@ -62,11 +62,13 @@ export default function Likes(props) {
     }
   }
 
+  // BUG: not a bug but..the like buttons move back n forth when like count changes. it looks bad. needa fix it.
+
   return (
     <div className="like-info">
-      <button className="btn btn-light upvote" onClick={increaseLikes}><i className={likeStatus === 'liked' ? 'bx bxs-upvote' : 'bx bx-upvote'}></i></button>
+      <button className="upvote" onClick={increaseLikes}><i className={likeStatus === 'liked' ? 'bx bxs-upvote' : 'bx bx-upvote'}></i></button>
       <p className="like-count">{likeCount}</p>
-      <button className="btn btn-light downvote" onClick={decreaseLikes}><i className={likeStatus === 'disliked' ? 'bx bxs-downvote' : 'bx bx-downvote'} ></i></button>
+      <button className="downvote" onClick={decreaseLikes}><i className={likeStatus === 'disliked' ? 'bx bxs-downvote' : 'bx bx-downvote'} ></i></button>
     </div>
   )
 }

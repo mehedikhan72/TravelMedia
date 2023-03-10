@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import CreatePost from "./CreatePost";
 import AuthContext from "../context/AuthContext";
 import Likes from "./interactions/Likes";
+import Comments from "./interactions/Comments";
 
 export default function Profile(props) {
   const { username } = useParams(); // The one who's profile we are visiting.
@@ -82,6 +83,19 @@ export default function Profile(props) {
 
   }
 
+  const [postDetailViewOn, setPostDetailViewOn] = useState(false);
+  const [detailViewPostID, setDetailViewPostId] = useState(null);
+
+  const enableDetailView = (id) => {
+    setPostDetailViewOn(true);
+    setDetailViewPostId(id);
+  }
+
+  const disableDetailView = () => {
+    setPostDetailViewOn(false);
+    setDetailViewPostId(null);
+  }
+
   return (
     <div>
       <h1>All the profiles info here. But will add later.</h1>
@@ -94,19 +108,18 @@ export default function Profile(props) {
         createPostBtnClicked={createPostBtnClicked}
         createPostBtnCancelled={createPostBtnCancelled}
       />}
+
       <div className={disableFeedView ? "disabled" : ""}>
         {data.map((item) => (
-          <div key={item.id} className="each-post text">
-            <div className="row">
-              <div className="col col-sm-6-col-md-6 col-lg-6">
-                <h3>{item.creator.username} is at {item.place}</h3>
-                <h6>{item.trip_date}</h6>
-              </div>
-              <div className="col col-sm-6-col-md-6 col-lg-6">
-                <h6>other options here.</h6>
-                <Likes post_id={item.id} />
-              </div>
-            </div>
+          <div key={item.id} className={postDetailViewOn && detailViewPostID === item.id ? "each-post each-post-detailed-view" : "each-post"} id={item.id}>
+            {postDetailViewOn && detailViewPostID === item.id &&
+              <div className="post-detail-heading">
+                <h6>Post detail</h6>
+                <button className='my-btns' onClick={disableDetailView} type='submit'>X</button>
+              </div>}
+            <p className="post-title"><strong>{item.creator.username}</strong> is at <strong>{item.place}</strong></p>
+            <p className="post-date">{item.trip_date}</p>
+
             <h6>{item.post}</h6>
             <br />
             <h4>Trip Info:</h4>
@@ -121,6 +134,18 @@ export default function Profile(props) {
             <h6>Some of the important things to take if you wanna visit {item.place}: {item.important_things_to_take}</h6>
             <h6>Here are some of the cautions: {item.cautions}</h6>
             <br />
+
+            <div className="interaction-menu">
+              <Likes post_id={item.id} />
+              {(!postDetailViewOn || item.id !== detailViewPostID) && <button onClick={() => enableDetailView(item.id)} className="my-btns"><i className="bx bx-comment"></i> Add Comments</button>}
+              <button onClick={() => enableDetailView(item.id)} className="my-btns"><i className="bx bx-comment"></i> 4</button>
+            </div>
+            {postDetailViewOn && detailViewPostID === item.id &&
+              <div>
+                {/* <br /> */}
+                <Comments post_id={item.id} />
+              </div>
+            }
           </div>
         ))}
       </div>
