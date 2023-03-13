@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../context/AuthContext';
 
 export default function CreatePost(props) {
@@ -19,7 +19,9 @@ export default function CreatePost(props) {
         trip_rating: 0,
         important_things_to_take: '',
         cautions: '',
+        uploaded_images: [],
     });
+
     const { user } = useContext(AuthContext);
     const placeholderText = `Tell us about your latest trip, ${user.username}!`;
 
@@ -49,13 +51,31 @@ export default function CreatePost(props) {
             trip_rating: 0,
             important_things_to_take: '',
             cautions: '',
+            uploaded_images: [],
         })
     }
+
+    const handleImageUpload = (event) => {
+        const tempImages = Array.from(event.target.files);
+        // const images = [];
+        // for(let i = 0; i < event.target.files.length; i++){
+        //     images.push(event.target.files[i]);
+        // }
+        // setPostContent((prevState) => ({
+        //     ...prevState,
+        //     uploaded_images: tempImages,
+        // }));
+
+        setPostContent({...postContent, uploaded_images: tempImages});
+
+        console.log(tempImages);
+        // console.log(images);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
-
+        console.log(postContent);
         if (accessToken) {
             fetch('http://127.0.0.1:8000/api/posts/', {
                 method: 'POST',
@@ -71,7 +91,6 @@ export default function CreatePost(props) {
                     createPostClicked();
                     resetFormData();
                     cancelPostClicked();
-                    console.log(data);
                 })
                 .catch((error) => console.log(error));
         } else {
@@ -120,9 +139,10 @@ export default function CreatePost(props) {
                         <input className='post-detail-input' type='text' name='cautions' placeholder='leave empty if none.' onChange={(e) =>  setPostContent({...postContent, cautions: e.target.value})}></input> <br />
                         <p>Other than the above data, please enter your thoughts.</p>
                         <textarea required className='post-detail-textarea' type='text' name='post' placeholder='e.g. Your experience.' onChange={(e) =>  setPostContent({...postContent, post: e.target.value})}></textarea> <br />
+                        <label htmlFor="images">Upload Images</label>
+                        <input type="file" id="images" name="images" multiple onChange={handleImageUpload}/>
                         <button className='my-btns create-post-confirm-btn' type='submit'>Post</button>
                     </form>
-
                 </div>
             )}
         </div>

@@ -9,12 +9,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.http import JsonResponse
 from django.db.models import F
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-id')
+    parser_class = [MultiPartParser, FormParser]
     serializer_class = PostSerializer
 
     def perform_create(self, serializer):
@@ -70,7 +72,7 @@ def register_user(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# USER INTERACTION VIEWS
+# # USER INTERACTION VIEWS
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def increase_likes(request, post_id):
@@ -78,14 +80,14 @@ def increase_likes(request, post_id):
     user = request.user
     if user in post.likes.all():
         post.likes.remove(user)
-
         post.save()
+        
         return JsonResponse({})
     if user in post.dislikes.all():
         post.dislikes.remove(user)
         post.likes.add(user)
-
         post.save()
+
         return JsonResponse({})
     post.likes.add(user)
     post.save()
@@ -100,18 +102,19 @@ def decrease_likes(request, post_id):
     user = request.user
     if user in post.dislikes.all():
         post.dislikes.remove(user)
-
         post.save()
+
         return JsonResponse({})
     if user in post.likes.all():
         post.likes.remove(user)
         post.dislikes.add(user)
-
         post.save()
+
         return JsonResponse({})
 
     post.dislikes.add(user)
     post.save()
+
     return JsonResponse({})
 
 
@@ -140,8 +143,8 @@ class CommentList(generics.ListCreateAPIView):
         post_id = self.kwargs['post_id']
         queryset = Comment.objects.filter(post_id=post_id).order_by('-id')
         # BUG need to send the queryset count later on.
-        #count = queryset.count()
-        #data = {'count': count, 'queryset': list(queryset.values())}
+        # count = queryset.count()
+        # data = {'count': count, 'queryset': list(queryset.values())}
         return queryset
 
     def perform_create(self, serializer):

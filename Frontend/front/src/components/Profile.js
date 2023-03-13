@@ -11,6 +11,8 @@ export default function Profile(props) {
   const [fData, setFData] = useState({}); // fData denoting followers n following data
   const [dataChanged, setDataChanged] = useState(false);
 
+  const [userHasImage, setUserHasImage] = useState(false);
+
   let { user } = useContext(AuthContext); // The logged in user.
 
   // fetch to get all the posts.
@@ -31,19 +33,19 @@ export default function Profile(props) {
   // Follow/ Unfollow data
   const accessToken = JSON.parse(localStorage.getItem('authTokens')).access;
 
-    useEffect(() => {
-      fetch(`http://127.0.0.1:8000/api/users/${username}/f_data/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/users/${username}/f_data/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+    })
+      .then(response => response.json())
+      .then(json => {
+        setFData(json);
       })
-        .then(response => response.json())
-        .then(json => {
-          setFData(json);
-        })
-    }, [dataChanged]);
+  }, [dataChanged]);
 
   const handleFollow = () => {
     fetch(`http://127.0.0.1:8000/api/users/${username}/follow/`, {
@@ -98,11 +100,23 @@ export default function Profile(props) {
 
   return (
     <div>
-      <h1>All the profiles info here. But will add later.</h1>
-      <h3>Followers: {fData.followers_count}</h3>
-      <h3>Followings: {fData.following_count}</h3>
-      {fData.is_following === false && user.username !== username && <button onClick={handleFollow}>Follow</button>}
-      {fData.is_following === true && user.username !== username && <button onClick={handleUnfollow}>Unfollow</button>}
+      <div className="user-info">
+        <div>
+          {!userHasImage && <i className='default-pfp bx bxs-user'></i>}
+        </div>
+
+        <div>
+          <p className="display-inline-block big-info-text">{username}</p>
+          {user.username == username && <button className="display-inline-block my-btns">Settings</button>}
+          {fData.is_following === false && user.username !== username && <button className="display-inline-block my-btns" onClick={handleFollow}>Follow</button>}
+          {fData.is_following === true && user.username !== username && <button className="display-inline-block my-btns" onClick={handleUnfollow}>Unfollow</button>}
+          <div>
+            <p className="small-info-text display-inline-block">{fData.followers_count} followers</p>
+            <p className="small-info-text display-inline-block">{fData.following_count} followings</p>
+          </div>
+        </div>
+      </div>
+
       {user.username === username && <CreatePost
         newPostAdded={newPostAdded}
         createPostBtnClicked={createPostBtnClicked}
@@ -149,7 +163,7 @@ export default function Profile(props) {
           </div>
         ))}
       </div>
-      
+
     </div>
   )
 }

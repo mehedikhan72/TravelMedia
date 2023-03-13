@@ -4,11 +4,20 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
+
 class User(AbstractUser):
     followers = models.ManyToManyField(
         'self', blank=True, related_name="following", symmetrical=False)
+    gender = models.CharField(default="Male", max_length=28)
+    location = models.CharField(max_length=256, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
+    bio = models.CharField(max_length=256, blank=True)
+
+    # Other data like number of trip reviewed, exp level n others will be implemented later.
+
     # follower_count = models.PositiveIntegerField(default=0)
     # following_count = models.PositiveIntegerField(default=0)
+
 
 class Post(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
@@ -27,8 +36,17 @@ class Post(models.Model):
     cautions = models.TextField(default="", blank=True)
 
     # Interactions
-    likes = models.ManyToManyField(User, blank=True, related_name="likes")
-    dislikes = models.ManyToManyField(User, blank=True, related_name="dislikes")
+    likes = models.ManyToManyField(
+        User, blank=True, related_name="users_who_like")
+    dislikes = models.ManyToManyField(
+        User, blank=True, related_name="users_who_dislike")
+
+
+class PostImages(models.Model):
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="images")
+    image = models.ImageField(
+        upload_to="img", default="", null=True, blank=True)
 
 
 class Comment(models.Model):

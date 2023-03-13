@@ -20,6 +20,7 @@ export default function CreateComment(props) {
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(comment);
                     props.newCommentAdded(data);
                     setComment("");
                 })
