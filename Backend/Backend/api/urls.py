@@ -32,4 +32,8 @@ urlpatterns = [
     # JWT endpoints
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Images
+    path('get_images/<int:post_id>/', views.get_images, name="get_images"),
+    path('post_images/', views.post_images, name="post_images")
 ]

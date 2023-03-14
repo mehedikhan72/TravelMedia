@@ -1,0 +1,15 @@
+import React, { useState } from "react";
+
+
+export default function ShowImages(props) {
+    // const postId = props.id;
+    const postId = 52;
+
+    const [images, setImages] = useState([]);
+    fetch(`http://127.0.0.1:8000/api/get_images/${postId}/`)
+    .then(response => response.json())
+    .then(json => {
+        setImages(json);
+        console.log(images);
+    })
+}

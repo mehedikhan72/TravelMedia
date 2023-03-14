@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, User, Comment
-from .serializers import PostSerializer, UserRegisterSerialzier, CommentSerializer
+from .models import Post, User, Comment, PostImages
+from .serializers import PostSerializer, UserRegisterSerialzier, CommentSerializer, ImageSerializer
 from rest_framework import generics, status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -10,13 +10,18 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.http import JsonResponse
 from django.db.models import F
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.core import serializers
+from django.http import HttpResponse
+
+# Using this for testing now, will remove later.
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.
 
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-id')
-    parser_class = [MultiPartParser, FormParser]
     serializer_class = PostSerializer
 
     def perform_create(self, serializer):
@@ -190,3 +195,48 @@ def f_data(request, username):
     }
 
     return JsonResponse(context)
+
+# Dealing with images
+
+# Will add csrf verification later.
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def post_images(request):
+    if request.method == "POST":
+        post = Post.objects.filter(creator=request.user).order_by('-id')[0]
+        # print(request.user)
+        # print(post)
+        if (request.user != post.creator):
+            return JsonResponse({
+                "Error" : "You are not the author of this post."
+            })
+        
+        images = request.FILES.getlist('images')
+        print(images)
+
+        if not images:
+            return JsonResponse({
+                "Error": "No images were found."
+            })
+
+        if(len(images) >= 10):
+            return JsonResponse({
+                "Error": "More than 10 images is not allowed."
+            })
+
+        for image in images:
+            post_image = PostImages.objects.create(post=post, image=image)
+            print("image added")
+            post_image.save()
+
+    return JsonResponse({})
+
+@api_view(["GET"])
+def get_images(request, post_id):
+    if(request.method == "GET"):
+        post = Post.objects.get(id=post_id)
+        images = PostImages.objects.filter(post=post)
+        serializer = ImageSerializer(images, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    return JsonResponse({})

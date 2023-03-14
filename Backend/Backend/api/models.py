@@ -43,10 +43,9 @@ class Post(models.Model):
 
 
 class PostImages(models.Model):
-    post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name="images")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     image = models.ImageField(
-        upload_to="img", default="", null=True, blank=True)
+        null=True, blank=True, upload_to="img")
 
 
 class Comment(models.Model):

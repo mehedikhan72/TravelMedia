@@ -15,6 +15,7 @@ export default function Posts() {
                 // figure out later why this happens multiple times.
                 setData(json.results);
             })
+            .catch((error) => console.log(error));
     }, [])
 
     const newPostAdded = (newPost) => {
@@ -79,6 +80,7 @@ export default function Posts() {
                         <h6>We had a {item.trip_rating} star rated trip in general</h6>
                         <h6>Some of the important things to take if you wanna visit {item.place}: {item.important_things_to_take}</h6>
                         <h6>Here are some of the cautions: {item.cautions}</h6>
+                        
                         <br />
 
                         <div className="interaction-menu">

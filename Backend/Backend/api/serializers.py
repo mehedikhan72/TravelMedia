@@ -24,21 +24,8 @@ class UserRegisterSerialzier(serializers.ModelSerializer):
 
         return user
 
-
-class PostImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostImages
-        fields = "__all__"
-
-
 class PostSerializer(serializers.ModelSerializer):
     creator = UserSerializer(read_only=True)
-    images = PostImageSerializer(many=True, read_only=True)
-
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(allow_empty_file=False, use_url=False),
-        write_only=True, required=False
-    )
 
     class Meta:
         model = Post
@@ -46,19 +33,8 @@ class PostSerializer(serializers.ModelSerializer):
                   'trip_duration', 'people_count', 'cost_per_person',
                   'transportation_data', 'staying_place', 'staying_place_cost',
                   'staying_place_rating', 'trip_rating', 'important_things_to_take',
-                  'cautions', 'likes', 'dislikes', 'images', 'uploaded_images'
+                  'cautions', 'likes', 'dislikes'
                   ]
-
-    def create(self, validated_data):
-        uploaded_images = validated_data.pop("uploaded_images")
-        post = Post.objects.create(**validated_data)
-
-        for image in uploaded_images:
-            PostImages.objects.create(post=post, image=image)
-
-        print(uploaded_images)
-
-        return post
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,3 +47,8 @@ class CommentSerializer(serializers.ModelSerializer):
         validated_data['creator'] = self.context['request'].user
         validated_data['post'] = Post.objects.get(pk=post_id)
         return super().create(validated_data)
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostImages
+        fields = ('id', 'post', 'image')
